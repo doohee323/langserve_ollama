@@ -20,3 +20,12 @@ pip3 install sse_starlette
 
 cd app
 python3 server.py
+
+
+cd example
+pip3 install streamlit
+pip3 install langchain
+pip3 install unstructured==0.7.12
+pip3 install sentence-transformers
+pip3 install --upgrade -r requirements.txt
+streamlit run main.py

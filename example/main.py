@@ -30,7 +30,9 @@ if not USE_BGE_EMBEDDING:
 # 1) REMOTE 접속: 본인의 REMOTE LANGSERVE 주소 입력
 # (예시)
 # LANGSERVE_ENDPOINT = "https://poodle-deep-marmot.ngrok-free.app/llm/"
-LANGSERVE_ENDPOINT = "https://NGROK에서_할당받은_URL/llm/"
+# LANGSERVE_ENDPOINT = "https://NGROK에서_할당받은_URL/llm/"
+# LANGSERVE_ENDPOINT = "http://localhost:8000/llm/"
+LANGSERVE_ENDPOINT = "http://langserve2.seerslab.io:14580/llm/"
 
 # 2) LocalHost 접속: 끝에 붙는 N4XyA 는 각자 다르니
 # http://localhost:8000/llm/playground 에서 python SDK 에서 확인!
@@ -56,7 +58,7 @@ st.title("OLLAMA Local 모델 테스트")
 
 if "messages" not in st.session_state:
     st.session_state["messages"] = [
-        ChatMessage(role="assistant", content="무엇을 도와드릴까요?")
+        ChatMessage(role="assistant", content="무엇을 도와드릴까요?????")
     ]
 
 
