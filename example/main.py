@@ -103,8 +103,8 @@ def embed_file(file):
         # - CPU: "cpu"
         model_kwargs = {
             # "device": "cuda"
-            "device": "mps"
-            # "device": "cpu"
+            # "device": "mps"
+            "device": "cpu"
         }
         encode_kwargs = {"normalize_embeddings": True}
         embeddings = HuggingFaceEmbeddings(
