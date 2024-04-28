@@ -47,7 +47,7 @@ pip3 install sentence-transformers
 pip3 install langserve
 pip3 install streamlit
 pip3 install "unstructured[pdf]"
-pip3 install torch
+pip3 install faiss-cpu
 #pip3 install setuptools
 #pip3 install pillow
 #python3 -m pip install setuptools
@@ -64,6 +64,53 @@ cd example
 #sudo apt install -y libsqlite3-dev
 
 streamlit run main.py
+
+============================================================================================================
+
+echo '#!/usr/bin/env bash
+
+if [[ "$1" == "stop" ]]; then
+  kill -9 $(ps -ef | grep "streamlit run main.py" | grep -v "grep" | awk "{print $2}" | head -n 1)
+  exit 0
+fi
+
+cd /home/ubuntu/langserve_ollama
+source env/bin/activate
+cd app
+/usr/bin/nohup python3 server.py 2>&1 &
+exit 0
+' > /home/ubuntu/langserve_ollama/langserve.sh
+
+chmod 777 /home/ubuntu/langserve_ollama/langserve.sh
+
+sudo tee /etc/systemd/system/langserve.service <<"EOF"
+[Unit]
+Description=langserve service
+After=network.target
+After=systemd-user-sessions.service
+After=network-online.target
+
+[Service]
+User=root
+Type=forking
+ExecStart=/home/ubuntu/langserve_ollama/langserve.sh
+ExecStop=/home/ubuntu/langserve_ollama/langserve.sh stop
+TimeoutSec=30
+Restart=on-failure
+RestartSec=30
+StartLimitInterval=350
+StartLimitBurst=10
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+sudo systemctl enable langserve.service
+service langserve start
+#service langserve status
+#service langserve stop
+
+============================================================================================================
 
 echo '#!/usr/bin/env bash
 
@@ -107,6 +154,9 @@ sudo systemctl enable streamlit.service
 service streamlit start
 #service streamlit status
 #service streamlit stop
+
+
+============================================================================================================
 
 sudo apt install nginx -y
 sudo tee /etc/nginx/sites-available/default <<"EOF"
